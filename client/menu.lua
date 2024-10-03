@@ -317,41 +317,32 @@ function get_correct_icon(model)
 end
 
 AddEventHandler('keep-companion:client:main_menu', function()
-    local name = ActivePed.read().itemData.info.name
-    local model = ActivePed.read().model
-    local icon = get_correct_icon(model)
-    local header = string.format(Lang:t('menu.main_menu.header'), name)
-    local sub_header = Lang:t('menu.main_menu.sub_header')
+local name = ActivePed.read().itemData.info.name
+local model = ActivePed.read().model
+local icon = get_correct_icon(model)
+local header = string.format(Lang:t('menu.main_menu.header'), name)
+local sub_header = Lang:t('menu.main_menu.sub_header')
 
-    -- header
-    local openMenu = { {
-        header = header,
-        txt = sub_header,
-        icon = icon,
-        isMenuHeader = true
-    }, {
-        header = Lang:t('menu.main_menu.btn_actions'),
+lib.registerContext({
+    id = 'keep-companion:client:main_menu',
+    title = header,
+    description = sub_header,
+    icon = icon,
+    options = {
+      {
+        title = Lang:t('menu.main_menu.btn_actions'),
         icon = 'fa-solid fa-circle-play',
-        params = {
-            event = "keep-companion:client:action_menu"
-        }
-    }, {
-        header = Lang:t('menu.main_menu.btn_switchcontrol'),
-        txt = "",
+        event = "keep-companion:client:action_menu"
+      },
+      {
+        title = Lang:t('menu.main_menu.btn_switchcontrol'),
+        description = "",
         icon = 'fa-solid fa-repeat',
-        params = {
-            event = "keep-companion:client:switchControl_menu"
-        }
-    }, {
-        header = Lang:t('menu.general_menu_items.btn_leave'),
-        txt = "",
-        icon = 'fa-solid fa-circle-xmark',
-        params = {
-            event = "qb-menu:closeMenu"
-        }
-    } }
-
-    exports['qb-menu']:openMenu(openMenu)
+        event = "keep-companion:client:switchControl_menu"
+      },
+    }
+  })
+  lib.showContext('keep-companion:client:main_menu')
 end)
 
 AddEventHandler('keep-companion:client:action_menu', function()
